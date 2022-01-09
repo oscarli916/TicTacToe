@@ -17,6 +17,7 @@ player_value = ["X", "O"]
 player_list = [Player(value) for value in player_value]
 num_player = len(player_list)
 
+
 count = 0
 grid.display()
 while not grid.game_end():

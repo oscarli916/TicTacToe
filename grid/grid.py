@@ -1,4 +1,3 @@
-import box
 from box.box import Box
 
 class Grid:
