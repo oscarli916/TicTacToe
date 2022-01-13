@@ -1,38 +1,30 @@
-from grid.grid import Grid
+from grid.grid_factory import GridFactory
 from player.player import Player
 
-def check_user_input(box_num: int, grid: Grid) -> bool:
-    if box_num < 1 or box_num > 9:
-        return False
-    
-    if grid.is_occupied(box_num):
-        return False
-
-    return True
-
+GRID_SIZE = 3
 
 # Initialize 
-grid = Grid()
-player_value = ["X", "O"]
-player_list = [Player(value) for value in player_value]
-num_player = len(player_list)
+factory = GridFactory()
+grid = factory.create_grid(GRID_SIZE)
+player1 = Player("X", grid)
+player2 = Player("O", grid)
+current_player = player1
+next_player = player2
 
 
-count = 0
 grid.display()
-while not grid.game_end():
 
-    current_player = count % num_player
-    box_num = input(f"Player {player_list[current_player].value}. Please choose a box.")
 
-    input_valid = check_user_input(int(box_num), grid)
-    while not input_valid:
-        print("Input is not valid. Please try again.")
-        box_num = input(f"Player Please choose a box.")
-        input_valid = check_user_input(int(box_num), grid)
-
-    player_list[current_player].choose_box(int(box_num), grid)
+while current_player:
+    
+    temp_current_player = current_player
+    current_player = current_player.take_turn(next_player)
+    next_player = temp_current_player
 
     grid.display()
 
-    count += 1
+
+if grid.grid_win():
+    print(f"Player {next_player.value} wins.")
+elif grid.grid_full():
+    print("It is a draw game.")
