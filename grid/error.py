@@ -1,0 +1,3 @@
+
+class UnsupportedGrid(Exception):
+    pass
